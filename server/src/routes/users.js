@@ -2,11 +2,16 @@ import express from 'express';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { UserModel } from '../models/Users.js';
+
+
 const router = express.Router();
 
 router.post('/register', async (req, res) => {
-    const { username, password } = req.body;
 
+    // essentially req.body.username to find the user
+    const { username, password } = req.body;
+     
+    // assigning username to variable and using mongoose to 
     const user = await UserModel.findOne({ username })
 
     if (user) {
@@ -23,3 +28,5 @@ router.post('/register', async (req, res) => {
 });
 
 router.post('login')
+
+export { router as userRouter };

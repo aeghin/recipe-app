@@ -14,16 +14,18 @@ router.post('/register', async (req, res) => {
     // assigning username to variable and using mongoose to 
     const user = await UserModel.findOne({ username })
 
+    //almost like validation to check if user exists otherwise won't move on.
     if (user) {
         return res.json({ message: 'User already exists'})
     };
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
+    // saving new user with .save() method.
     const newUser = new UserModel({ username, password: hashedPassword});
     await newUser.save();
 
-    
+    // send this as a response.
     res.json({ message: "User registered sucessfully!"});
 });
 

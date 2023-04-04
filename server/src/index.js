@@ -30,5 +30,5 @@ mongoose.connect('mongodb+srv://edwxrd:mernapp123@recipes.xk9ucsi.mongodb.net/re
 
 
 app.listen(PORT, () => {
-  console.log('Server started');
+  console.log(`Server started on localhost:${PORT}`);
 })

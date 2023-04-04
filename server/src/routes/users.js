@@ -12,11 +12,11 @@ router.post('/register', async (req, res) => {
     const { username, password } = req.body;
      
     // assigning username to variable and using mongoose to 
-    const user = await UserModel.findOne({ username })
+    const user = await UserModel.findOne({ username });
 
-    //almost like validation to check if user exists otherwise won't move on.
+    // almost like validation to check if user exists otherwise won't move on.
     if (user) {
-        return res.json({ message: 'User already exists'})
+        return res.json({ message: 'User already exists'});
     };
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -27,8 +27,32 @@ router.post('/register', async (req, res) => {
 
     // send this as a response.
     res.json({ message: "User registered sucessfully!"});
+
+    
 });
 
-router.post('login')
+router.post('/login', async (req, res) => {
+    const { username, password } = req.body;
+
+    // find user again
+    const user = await UserModel.findOne({ username });
+
+    // if user is not found, send this
+    if (!user) {
+        return res.json({ message: "User doesn't exist"})
+    };
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordValid) {
+        return res.json({ message: "password/username is incorrect"});
+    };
+
+    const token = jwt.sign({ id: user._id }, "secret");
+
+    res.json({ token, userID: user._id });
+
+
+});
 
 export { router as userRouter };

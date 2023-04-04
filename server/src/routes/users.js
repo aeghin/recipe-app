@@ -42,14 +42,18 @@ router.post('/login', async (req, res) => {
         return res.json({ message: "User doesn't exist"})
     };
 
+    // using bcrypt to validate password.
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
+    
     if (!isPasswordValid) {
-        return res.json({ message: "password/username is incorrect"});
+        return res.json({ message: "password is incorrect"});
     };
 
+    // using jwt first time
     const token = jwt.sign({ id: user._id }, "secret");
 
+    //sending back the token and userID
     res.json({ token, userID: user._id });
 
 

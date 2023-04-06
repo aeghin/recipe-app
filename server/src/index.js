@@ -7,6 +7,7 @@ import mongoose from 'mongoose';
 
 
 import { userRouter } from './routes/users.js';
+import { recipeRouter } from './routes/recipes.js';
 
 const PORT = 3001;
 
@@ -18,7 +19,8 @@ app.use(express.json());
 app.use(cors());
 
 // applies to the URL 
-app.use('/auth', userRouter)
+app.use('/auth', userRouter);
+app.use('/recipes', recipeRouter);
 
 // connection to mongoose
 mongoose.connect('mongodb+srv://edwxrd:mernapp123@recipes.xk9ucsi.mongodb.net/recipes?retryWrites=true&w=majority',
@@ -31,4 +33,4 @@ mongoose.connect('mongodb+srv://edwxrd:mernapp123@recipes.xk9ucsi.mongodb.net/re
 
 app.listen(PORT, () => {
   console.log(`Server started on localhost:${PORT}`);
-})
+});
